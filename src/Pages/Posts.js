@@ -6,11 +6,11 @@ import { getCookieToken } from "../shared/Cookie";
 function Post() {
   const myToken = getCookieToken();
   const [input, setInput] = useState({
-    title: "",
-    content: "",
+    title: null,
+    content: null,
     image: null,
   });
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -20,8 +20,8 @@ function Post() {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     let formData = new FormData();
-    formData.append("title", JSON.stringify(input.title));
-    formData.append("content", JSON.stringify(input.content));
+    formData.append("title", input.title);
+    formData.append("content", input.content);
     formData.append("image", input.image);
     console.log(formData);
 
@@ -36,7 +36,7 @@ function Post() {
         console.log(formData);
       });
 
-    setInput({ title: "", content: "", image: null });
+    setInput({ title: null, content: null, image: null });
   };
 
   const onChangePreview = (e) => {

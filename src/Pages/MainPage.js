@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import styled from "styled-components";
 
 function MainPage() {
   const [posts, setPosts] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const fetchPosts = async () => {
-    const { data } = await axios.get('http://localhost:3001/api/posts');
-    setPosts(data.posts);
+    try {
+      const { data } = await axios.get("http://localhost:3001/api/posts");
+      setPosts(data.posts);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchPosts();
   }, []);
+
   const navigate = useNavigate();
 
   return (
@@ -21,33 +29,45 @@ function MainPage() {
       <StHeader>
         <StHeaderTitle>왕초의 STORY를 모두에게 알려주세요!</StHeaderTitle>
         <StHeaderButtons>
-          <StButton onClick={() => navigate('/write')}>작성하기</StButton>
+          <StButton onClick={() => navigate("/write")}>작성하기</StButton>
         </StHeaderButtons>
       </StHeader>
 
       {/* 본문 */}
       <StMainContainer>
-        {posts?.map((post) => (
-            <StPost key={post.postId}>
-              <StPostImage src={post.image} alt="게시글 이미지" />
-              <StPostContent>
-                <StNickname>{post.nickname}</StNickname>
-                <StPostTitle>{post.title}</StPostTitle>
-                <StPostText>{post.content}</StPostText>
-              </StPostContent>
-              <StPostIcons>
-                <StIcon>
-                  <StIconLabel>좋아요</StIconLabel>
-                  <StIconCount>{post.likeNum}</StIconCount>
-                </StIcon>
-                <StIcon>
-                  <StIconLabel>댓글</StIconLabel>
-                  <StIconCount>{post.commentNum}</StIconCount>
-                </StIcon>
-              </StPostIcons>
-            </StPost>
-          ))
-        }
+        {isLoading ? (
+          <StLoadingMessage>Loading posts...</StLoadingMessage>
+        ) : (
+          <>
+            {posts && posts.length > 0 ? (
+              posts.map((post) => (
+                <StPost key={post.postId}>
+                  <StPostImage
+                    src={`http://localhost:3001/${post.image}`}
+                    alt={post.image}
+                  />
+                  <StPostContent>
+                    <StNickname>왕초 지망자: {post.nickname}</StNickname>
+                    <StPostTitle>오늘의 제목: {post.title}</StPostTitle>
+                    <StPostText>왕초의 하루 일과: {post.content}</StPostText>
+                  </StPostContent>
+                  <StPostIcons>
+                    <StIcon>
+                      <StIconLabel>좋아요</StIconLabel>
+                      <StIconCount>{post.likeNum}</StIconCount>
+                    </StIcon>
+                    <StIcon>
+                      <StIconLabel>댓글</StIconLabel>
+                      <StIconCount>{post.commentNum}</StIconCount>
+                    </StIcon>
+                  </StPostIcons>
+                </StPost>
+              ))
+            ) : (
+              <StNoPostsMessage>게시글이 없습니다.</StNoPostsMessage>
+            )}
+          </>
+        )}
       </StMainContainer>
     </>
   );
@@ -124,6 +144,7 @@ const StNickname = styled.div`
 `;
 
 const StPostTitle = styled.div`
+  font-weight: 600;
   font-size: 16px;
   margin-bottom: 4px;
 `;
@@ -155,6 +176,12 @@ const StIconCount = styled.div`
 `;
 
 const StNoPostsMessage = styled.div`
+  font-size: 16px;
+  margin-top: 16px;
+  text-align: center;
+`;
+
+const StLoadingMessage = styled.div`
   font-size: 16px;
   margin-top: 16px;
   text-align: center;
