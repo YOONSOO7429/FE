@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faHeart, faComment } from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+
 function MainPage() {
   const [posts, setPosts] = useState(null);
   const fetchPosts = async () => {
@@ -15,82 +14,148 @@ function MainPage() {
     fetchPosts();
   }, []);
   const navigate = useNavigate();
+
   return (
     <>
-      {/* header */}
-      <StHeaderBox>
-        <StHeaderTitle>왕초닷컴</StHeaderTitle>
-        <StHeaderBtns>
-          <button>로그인</button>
-          <button onClick={() => navigate('/write')}>작성하기</button>
-        </StHeaderBtns>
-      </StHeaderBox>
-      {/* main */}
-      <div>
+      {/* 헤더 */}
+      <StHeader>
+        <StHeaderTitle>왕초의 STORY를 모두에게 알려주세요!</StHeaderTitle>
+        <StHeaderButtons>
+          <StButton onClick={() => navigate('/write')}>작성하기</StButton>
+        </StHeaderButtons>
+      </StHeader>
+
+      {/* 본문 */}
+      <StMainContainer>
         {posts?.map((post) => (
-          <StPostBox key={post.postId}>
-            <StPostBoxContents>
-              <img
-                style={{ width: '160px', height: '160px' }}
-                src={post.image}
-                alt={post.image}
-              />
-              <StPostBoxContent>
-                <div>{post.nickname}</div>
-                <div>{post.title}</div>
-                <div>{post.content}</div>
-              </StPostBoxContent>
-            </StPostBoxContents>
-            <StPostBoxIcons>
-              <div>
-                {/* <FontAwesomeIcon icon={faHeart} /> */}
-                {post.likeNum}
-              </div>
-              <div>
-                {/* <FontAwesomeIcon icon={faComment} /> */}
-                {post.commentNum}
-              </div>
-            </StPostBoxIcons>
-          </StPostBox>
-        ))}
-      </div>
+            <StPost key={post.postId}>
+              <StPostImage src={post.image} alt="게시글 이미지" />
+              <StPostContent>
+                <StNickname>{post.nickname}</StNickname>
+                <StPostTitle>{post.title}</StPostTitle>
+                <StPostText>{post.content}</StPostText>
+              </StPostContent>
+              <StPostIcons>
+                <StIcon>
+                  <StIconLabel>좋아요</StIconLabel>
+                  <StIconCount>{post.likeNum}</StIconCount>
+                </StIcon>
+                <StIcon>
+                  <StIconLabel>댓글</StIconLabel>
+                  <StIconCount>{post.commentNum}</StIconCount>
+                </StIcon>
+              </StPostIcons>
+            </StPost>
+          ))
+        }
+      </StMainContainer>
     </>
   );
 }
+
 export default MainPage;
-const StHeaderBox = styled.div`
-  background-color: #02C73C;
+
+// 스타일 컴포넌트
+const StHeader = styled.div`
+  background-color: #02c73c;
   color: white;
   display: flex;
+  align-items: center;
   padding: 16px;
 `;
-const StHeaderTitle = styled.div`
-  margin: auto;
+
+const StHeaderTitle = styled.h1`
+  margin: 0;
+  font-size: 24px;
 `;
-const StHeaderBtns = styled.div`
-  display: flex;
-  gap: 8px;
-  margin-right: 40px;
+
+const StHeaderButtons = styled.div`
+  margin-left: auto;
 `;
-const StPostBox = styled.div`
-  display: flex;
+
+const StButton = styled.button`
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: white;
+    color: #02c73c;
+  }
+
+  & + & {
+    margin-left: 8px;
+  }
+`;
+
+const StMainContainer = styled.div`
   margin: 16px 40px;
+`;
+
+const StPost = styled.div`
+  display: flex;
   padding-bottom: 16px;
-  border-bottom: 1px solid #EEEEEF;
+  border-bottom: 1px solid #eeeeef;
   justify-content: space-between;
   align-items: flex-end;
 `;
-const StPostBoxContent = styled.div`
+
+const StPostImage = styled.img`
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+`;
+
+const StPostContent = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 16px;
 `;
-const StPostBoxIcons = styled.div`
+
+const StNickname = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 4px;
+`;
+
+const StPostTitle = styled.div`
+  font-size: 16px;
+  margin-bottom: 4px;
+`;
+
+const StPostText = styled.div`
+  font-size: 14px;
+  margin-bottom: 4px;
+`;
+
+const StPostIcons = styled.div`
   display: flex;
   gap: 8px;
+  align-items: center;
 `;
-const StPostBoxContents = styled.div`
+
+const StIcon = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
+  gap: 4px;
+`;
+
+const StIconLabel = styled.div`
+  font-size: 14px;
+`;
+
+const StIconCount = styled.div`
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+const StNoPostsMessage = styled.div`
+  font-size: 16px;
+  margin-top: 16px;
+  text-align: center;
 `;

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { getCookieToken } from "../shared/Cookie";
 
 function Post() {
+  const myToken = getCookieToken();
   const [input, setInput] = useState({
     title: "",
     content: "",
@@ -21,15 +23,18 @@ function Post() {
     formData.append("title", JSON.stringify(input.title));
     formData.append("content", JSON.stringify(input.content));
     formData.append("image", input.image);
-    console.log(formData)
+    console.log(formData);
 
     const config = {
       headers: { "content-type": "multipart/form-data" },
+      Authorization: myToken,
     };
 
-    axios.post("http://localhost:3001/api/posts", formData, config).then((res) => {
-      console.log(formData);
-    });
+    axios
+      .post("http://localhost:3001/api/posts", formData, config)
+      .then((res) => {
+        console.log(formData);
+      });
 
     setInput({ title: "", content: "", image: null });
   };
