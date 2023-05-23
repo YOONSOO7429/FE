@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
-import { getCookieToken } from "../shared/Cookie";
 
 function Post() {
-  const myToken = getCookieToken();
+  const access = localStorage.getItem("accessToken");
   const [input, setInput] = useState({
     title: null,
     content: null,
@@ -26,14 +25,23 @@ function Post() {
     console.log(formData);
 
     const config = {
-      headers: { "content-type": "multipart/form-data" },
-      Authorization: myToken,
+      headers: {
+        "content-type": "multipart/form-data",
+        access: access,
+      },
     };
 
     axios
       .post("http://localhost:3001/api/posts", formData, config)
       .then((res) => {
         console.log(formData);
+      })
+      .catch((e) => {
+        console.log(e);
+        if (e.response.data.message === "로그인이 필요한 기능입니다.") {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+        }
       });
 
     setInput({ title: null, content: null, image: null });

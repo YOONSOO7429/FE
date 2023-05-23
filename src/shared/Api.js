@@ -6,7 +6,6 @@ export const api = axios.create({
   headers: {
     /* */
   },
-  withCredentials: true,
 });
 
 export const AuthApi = {

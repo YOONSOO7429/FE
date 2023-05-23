@@ -1,52 +1,41 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { AuthApi } from "../shared/Api";
 
 function LogIn() {
-  const [email, setEmail] = useState({
-    value: "",
-    err: null,
-  });
-  const [password, setPassword] = useState({
-    value: "",
-    err: null,
-  });
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const onEmailChangeHandler = (event) => {
-    const inputEmail = event.target.value;
-    setEmail((prevEmail) => ({
-      ...prevEmail,
-      value: inputEmail,
-    }));
+    setEmail(event.target.value);
   };
 
   const onPasswordChangeHandler = (event) => {
-    const inputPassword = event.target.value;
-    setPassword((prevPassword) => ({
-      ...prevPassword,
-      value: inputPassword,
-    }));
+    setPassword(event.target.value);
   };
 
   const onSubmitHandler = async () => {
-    if (email.value && password.value) {
-      navigate("/");
-
+    if (email && password) {
       try {
         const res = await AuthApi.login({
-          email: email.value,
-          password: password.value,
+          email: email,
+          password: password,
         });
-        console.log(res);
+
+        localStorage.setItem("accessToken", res.data.access);
+        localStorage.setItem("refreshToken", res.data.refresh);
+
+        if (res.status === 200) {
+          navigate("/");
+        }
+        
       } catch (err) {
         console.log(err);
       }
     } else {
       alert("Please enter your email and password.");
-      return;
     }
   };
 
@@ -57,26 +46,24 @@ function LogIn() {
         <Label>Email</Label>
         <Input
           type="text"
-          value={email.value}
+          value={email}
           placeholder="Type your Email"
           onChange={onEmailChangeHandler}
         />
         <Label>Password</Label>
         <Input
           type="password"
-          value={password.value}
+          value={password}
           placeholder="Type your Password"
           onChange={onPasswordChangeHandler}
         />
         <ButtonContainer>
-          <Button type="submit" onClick={onSubmitHandler}>
-            Log In
-          </Button>
+          <Button onClick={onSubmitHandler}>Log In</Button>
           <Link to={"/signup"}>
-            <Button type="button">Sign Up</Button>
+            <Button>Sign Up</Button>
           </Link>
           <Link to={"/"}>
-            <Button type="button">Go Back</Button>
+            <Button>Go Back</Button>
           </Link>
         </ButtonContainer>
       </Form>
@@ -90,17 +77,15 @@ const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   border: 3px solid black;
   border-radius: 5px;
   background-color: #f8f8f8;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
