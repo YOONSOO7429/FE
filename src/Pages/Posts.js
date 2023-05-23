@@ -54,11 +54,12 @@ function Post() {
   };
 
   return (
+    <Background>
+      <BackCenter>
     <Container>
-      <h1>게시글 작성</h1>
+      <h1>게시글 작성하기</h1>
       <Form onSubmit={onSubmitHandler}>
         <FormGroup>
-          <Label htmlFor="title">제목</Label>
           <InputText
             type="text"
             onChange={onChangeHandler}
@@ -69,7 +70,6 @@ function Post() {
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="content">본문</Label>
           <Textarea
             type="text"
             onChange={onChangeHandler}
@@ -80,31 +80,43 @@ function Post() {
           />
         </FormGroup>
         <FormGroup>
-          <Label htmlFor="file">이미지 첨부</Label>
+          <Label htmlFor="file">이미지 첨부하기</Label>
           <InputFile
             type="file"
             id="file"
             accept="image/*"
             onChange={onChangePreview}
           />
-        </FormGroup>
+        </FormGroup><br></br><hr/>
+        {file && <PreviewImage src={file} alt={file} />}<br/> 
         <Button type="submit">저장</Button>
-        {file && <PreviewImage src={file} alt={file} />}
+        <Button type="button">취소</Button>
       </Form>
     </Container>
+    </BackCenter>
+    </Background>
   );
 }
 
 export default Post;
+const Background = styled.div`
+  height: 100vh !important;
+
+`
+const BackCenter = styled.div`
+  margin:0 auto;
+  opacity:0.7;
+`
 
 const Container = styled.div`
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 4px;
   box-sizing: border-box;
   text-align: center;
+  opacity:1.5;
 `;
 
 const Form = styled.form`
@@ -114,10 +126,12 @@ const Form = styled.form`
 const FormGroup = styled.div`
   margin-bottom: 20px;
   margin-right: 20px;
+  text-align:left;
 `;
 
 const Label = styled.label`
-  font-weight: bold;
+  text-align: left !important;
+  font-weight: bold; 
 `;
 
 const InputText = styled.input`
@@ -130,11 +144,13 @@ const InputText = styled.input`
 
 const Textarea = styled.textarea`
   width: 100%;
+  height:300px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
+  maxlength:500px;
 `;
 
 const InputFile = styled.input`
@@ -142,7 +158,7 @@ const InputFile = styled.input`
 `;
 
 const Button = styled.button`
-  width: 100%;
+  width: 10%;
   padding: 10px;
   font-size: 16px;
   background-color: #007bff;
@@ -150,9 +166,12 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin : 5px;
 `;
 
 const PreviewImage = styled.img`
-  max-width: 100%;
-  margin-top: 20px;
+  max-width: 30%;
+  margin: 20px;
+  aligns-items : center;
+  size:20px;
 `;

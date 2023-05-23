@@ -40,66 +40,81 @@ function LogIn() {
   };
 
   return (
+    <Background>
     <Container>
-      <h1>왕초 WORLD 입장하기</h1>
       <Form>
-        <Label>Email</Label>
+      <h1>왕초닷컴</h1>
+        <Label>이메일</Label>
         <Input
           type="text"
-          value={email}
+          value={email.value}
           placeholder="Type your Email"
           onChange={onEmailChangeHandler}
         />
-        <Label>Password</Label>
+        <Label>패스워드</Label>
         <Input
           type="password"
-          value={password}
+          value={password.value}
           placeholder="Type your Password"
           onChange={onPasswordChangeHandler}
         />
         <ButtonContainer>
-          <Button onClick={onSubmitHandler}>Log In</Button>
+          <Button type="submit" onClick={onSubmitHandler}>
+            로그인
+          </Button>
           <Link to={"/signup"}>
-            <Button>Sign Up</Button>
+            <Button type="button">회원가입</Button>
           </Link>
           <Link to={"/"}>
-            <Button>Go Back</Button>
+            <Button type="button">뒤로가기</Button>
           </Link>
         </ButtonContainer>
       </Form>
     </Container>
+    </Background>
   );
 }
 
 export default LogIn;
 
+const Background = styled.html`
+  background-image : url('https://images.pexels.com/photos/4386321/pexels-photo-4386321.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  opacity: 0.8;
+  background-size: 100%;
+`
 const Container = styled.div`
-  max-width: 400px;
+  height: 100vh !important;
+  max-width: 450px;
   margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 3px solid black;
-  border-radius: 5px;
-  background-color: #f8f8f8;
+  display: flex !important;
+  align-items: center !important;
+  text-align:center;
 `;
 
-const Form = styled.div`
-  display: flex;
+const Form = styled.form`
+  background-color: white;
+  display: flex !important;
   flex-direction: column;
-  align-items: center;
   gap: 10px;
   width: 100%;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+  opacity:0.8;
 `;
 
 const Label = styled.label`
+  margin: 1 auto;
   font-weight: bold;
+  text-align:left;
+  padding-left:30px;
 `;
 
 const Input = styled.input`
+  margin: 0 auto;
   padding: 10px;
-  width: 100%;
+  width: 80%;
   border-radius: 5px;
   border: 1px solid #ccc;
   outline: none;

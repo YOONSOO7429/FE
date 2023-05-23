@@ -1,14 +1,18 @@
-import React, { useParams, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 import axios from "axios";
 import styled from "styled-components";
+
+
 export default function PostDetail() {
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState();
   const { postId } = useParams();
   const fetchPostDetail = async () => {
     const { data } = await axios.get(
       `http://localhost:3001/api/posts/${postId}`
     );
-    setPost(data.posts);
+    setPost(data);
+    console.log(`post`)
   };
   useEffect(() => {
     fetchPostDetail();

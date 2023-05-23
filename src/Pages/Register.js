@@ -90,15 +90,18 @@ function Signup() {
   };
 
   return (
-    <StSignupContainer>
-      <h1>왕초 WORLD에 오신걸 환영합니다.</h1>
+    <Background>
+      <CenterTemplate>
+        <CenterH1>
+        <p>왕초닷컴 방문을 환영합니다</p>
+      <StSignupContainer>
       <label>
-        Email:
+        이메일
         <StAlertBox>{email.err ? alertMessage.emailErr : null}</StAlertBox>
       </label>
-      <Input type="text" placeholder="Email" onChange={handleEmailChange} />
+      <Input type="text" placeholder="Email" onChange={handleEmailChange} /><br></br>
       <label>
-        Nickname:
+        닉네임
         <StAlertBox>
           {nickname.err ? alertMessage.nicknameErr : null}
         </StAlertBox>
@@ -107,18 +110,18 @@ function Signup() {
         type="text"
         placeholder="Nickname"
         onChange={handleNickNameChange}
-      />
+      /><br></br>
       <label>
-        Password:
+        패스워드
         <StAlertBox>{password.err ? alertMessage.pwErr : null}</StAlertBox>
       </label>
       <Input
         type="password"
         placeholder="Password"
         onChange={handlePasswordChange}
-      />
+      /><br></br>
       <label>
-        Confirm Password:
+        패스워드 확인
         <StAlertBox>
           {confirmPassword.err ? alertMessage.pwmatchErr : null}
         </StAlertBox>
@@ -129,26 +132,63 @@ function Signup() {
         onChange={handleConfirmPasswordChange}
       />
       <div>
+        <Link>
         <StBtn onClick={handleSubmit}>회원가입</StBtn>
+        </Link>
         <Link to={"/"}>
           <StBtn>취소하기</StBtn>
         </Link>
       </div>
     </StSignupContainer>
+    </CenterH1>
+    </CenterTemplate>
+    </Background>
   );
 }
 export default Signup;
 
-const StSignupContainer = styled.div`
-  max-width: 1000px;
-  margin: 15px auto;
-  padding: 20px;
+const Background = styled.div`
+  background-image : url('https://images.pexels.com/photos/4386321/pexels-photo-4386321.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  opacity: 0.8;
+  background-size: 100%;
+  height: 100vh !important;
   display: flex;
+  margin: 0 auto;
+  
+`
+const CenterTemplate = styled.div`
+  height: 100vh;
+  display: flex;
+  margin: 0 auto;
+  align-items: center !important;
+  max-width: 1000px;
+  text-align: center !important;
+`
+const CenterH1 = styled.p`
+  text-align:center;
+  width:500px;
+  font-size:30px;
+  margin-bottom:30px;
+  font-weight: bold;
+`
+
+const StSignupContainer = styled.div`
+  align-items: left !important;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px;
+  display: flex !important;
   flex-wrap: wrap;
   gap: 10px;
   flex-direction: column;
-  border: 3px solid black;
+  background-color : white;
+  padding-bottom: 40px;
+  border-radius: 20px;
+  opacity:0.8;
+  text-align:left;
+  font-size:15px;
 `;
+
 const StBtn = styled.button`
   margin-right: 5px;
   background-color: #0077ff;
@@ -157,12 +197,12 @@ const StBtn = styled.button`
   border-radius: 4px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  cursor: pointer;
-
+  cursor: pointer; 
   &:hover {
     background-color: #0055cc;
   }
 `;
+
 const StAlertBox = styled.div`
   color: tomato;
   font-weight: bold;
@@ -174,5 +214,5 @@ const Input = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
-  width: 980px;
+  width: 400px;
 `;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -25,22 +25,23 @@ function MainPage() {
 
   return (
     <>
-        {/* 헤더 */}
-        <StHeader>
-          <StHeaderTitle>왕초의 STORY를 모두에게 알려주세요!</StHeaderTitle>
-          <StHeaderButtons>
-            <StButton onClick={() => navigate("/write")}>작성하기</StButton>
-          </StHeaderButtons>
-        </StHeader>
+      {/* 헤더 */}
+      <StHeader>
+        <StHeaderTitle>왕초의 STORY를 모두에게 알려주세요!</StHeaderTitle>
+        <StHeaderButtons>
+          <StButton onClick={() => navigate("/write")}>작성하기</StButton>
+        </StHeaderButtons>
+      </StHeader>
 
-        {/* 본문 */}
-        <StMainContainer>
-          {isLoading ? (
-            <StLoadingMessage>Loading posts...</StLoadingMessage>
-          ) : (
-            <>
-              {posts && posts.length > 0 ? (
-                posts.map((post) => (
+      {/* 본문 */}
+      <StMainContainer>
+        {isLoading ? (
+          <StLoadingMessage>Loading posts...</StLoadingMessage>
+        ) : (
+          <>
+            {posts && posts.length > 0 ? (
+              posts.map((post) => (
+                <Link to={`/posts/${post.postId}`} style={{textDecoration: 'none', color: "black"}}>
                   <StPost key={post.postId}>
                     <StPostImage
                       src={`http://localhost:3001/${post.image}`}
@@ -62,13 +63,14 @@ function MainPage() {
                       </StIcon>
                     </StPostIcons>
                   </StPost>
-                ))
-              ) : (
-                <StNoPostsMessage>게시글이 없습니다.</StNoPostsMessage>
-              )}
-            </>
-          )}
-        </StMainContainer>
+                </Link>
+              ))
+            ) : (
+              <StNoPostsMessage>게시글이 없습니다.</StNoPostsMessage>
+            )}
+          </>
+        )}
+      </StMainContainer>
     </>
   );
 }
