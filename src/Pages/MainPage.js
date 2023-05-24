@@ -4,6 +4,7 @@ import axios from "axios";
 import styled from "styled-components";
 
 function MainPage() {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const fetchPosts = async () => {
@@ -20,8 +21,6 @@ function MainPage() {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <>
@@ -43,14 +42,14 @@ function MainPage() {
               posts.map((post) => (
                 <Link to={`/posts/${post.postId}`} style={{textDecoration: 'none', color: "black"}}>
                   <StPost key={post.postId}>
-                    <StPostImage
+                  <StPostImage
                       src={`http://localhost:3001/${post.image}`}
                       alt={post.image}
                     />
                     <StPostContent>
-                      <StNickname>왕초 지망자: {post.nickname}</StNickname>
-                      <StPostTitle>오늘의 제목: {post.title}</StPostTitle>
-                      <StPostText>왕초의 하루 일과: {post.content}</StPostText>
+                      <StPostTitle>{post.title}</StPostTitle>
+                      <StNickname>왕초 지망자: {post.nickname}</StNickname><hr/>
+                      <StPostText>{post.content}</StPostText>
                     </StPostContent>
                     <StPostIcons>
                       <StIcon>
@@ -84,10 +83,12 @@ const StHeader = styled.div`
   display: flex;
   align-items: center;
   padding: 16px;
+  display: flex;
+  margin: 0 auto;
 `;
 
 const StHeaderTitle = styled.h1`
-  margin: 0;
+  margin:0;
   font-size: 24px;
 `;
 
@@ -115,20 +116,21 @@ const StButton = styled.button`
 `;
 
 const StMainContainer = styled.div`
-  margin: 16px 40px;
+  margin: 16px 16px;
 `;
 
 const StPost = styled.div`
   display: flex;
-  padding-bottom: 16px;
   border-bottom: 1px solid #eeeeef;
   justify-content: space-between;
-  align-items: flex-end;
+  pointer: cursor;
+  display: flex;
+  margin: 0 auto;
 `;
 
 const StPostImage = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 170px;
+  height: 170px;
   object-fit: cover;
   border-radius: 8px;
 `;
@@ -136,31 +138,42 @@ const StPostImage = styled.img`
 const StPostContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 16px;
-  width: 400px;
+  width: 650px;
+  display: flex;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eeeeef;
+  justify-content: space-between;
 `;
 
 const StNickname = styled.div`
   font-weight: bold;
-  font-size: 18px;
+  font-size: 12px;
   margin-bottom: 4px;
 `;
 
 const StPostTitle = styled.div`
   font-weight: 600;
-  font-size: 16px;
+  font-size: 22px !important;
   margin-bottom: 4px;
 `;
 
 const StPostText = styled.div`
-  font-size: 14px;
-  margin-bottom: 4px;
+  border-radius: 20px;
+  height:100px;
+  font-size: 16px;
+  margin: 3px;
+  background-color: #f78f9fa;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding : 20px;
+  readonly;
 `;
 
 const StPostIcons = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  align-items: flex-end;
+  padding-bottom:20px;
 `;
 
 const StIcon = styled.div`

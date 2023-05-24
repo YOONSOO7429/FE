@@ -15,7 +15,7 @@ function LogIn() {
   const onPasswordChangeHandler = (event) => {
     setPassword(event.target.value);
   };
-
+  const access = localStorage.getItem("accessToken");
   const onSubmitHandler = async () => {
     if (email && password) {
       try {
@@ -37,8 +37,7 @@ function LogIn() {
       alert("Please enter your email and password.");
     }
   };
-
-  return (
+  const template = (
     <Background>
     <Container>
       <Form>
@@ -71,7 +70,12 @@ function LogIn() {
       </Form>
     </Container>
     </Background>
-  );
+  )
+    if(!access) {
+      return template
+    } else {
+      window.location.href = '/';
+    }
 }
 
 export default LogIn;

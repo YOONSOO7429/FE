@@ -7,6 +7,7 @@ import Posts from "../Pages/Posts";
 import Register from "../Pages/Register";
 import PostDetail from "../Pages/PostDetail";
 
+
 const Router = () => {
   return (
     <BrowserRouter>
