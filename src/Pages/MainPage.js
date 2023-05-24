@@ -79,7 +79,7 @@ export default MainPage;
 
 // 스타일 컴포넌트
 const StHeader = styled.div`
-  background-color: #02c73c;
+  background-color: black;
   color: white;
   display: flex;
   align-items: center;
@@ -137,6 +137,7 @@ const StPostContent = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 16px;
+  width: 400px;
 `;
 
 const StNickname = styled.div`

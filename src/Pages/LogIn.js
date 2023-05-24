@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { AuthApi } from "../shared/Api";
 
 function LogIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const onEmailChangeHandler = (event) => {
@@ -25,7 +25,6 @@ function LogIn() {
         });
 
         localStorage.setItem("accessToken", res.data.access);
-        localStorage.setItem("refreshToken", res.data.refresh);
 
         if (res.status === 200) {
           navigate("/");
@@ -47,14 +46,14 @@ function LogIn() {
         <Label>이메일</Label>
         <Input
           type="text"
-          value={email.value}
+          value={email.valueOf()}
           placeholder="Type your Email"
           onChange={onEmailChangeHandler}
         />
         <Label>패스워드</Label>
         <Input
           type="password"
-          value={password.value}
+          value={password.valueOf()}
           placeholder="Type your Password"
           onChange={onPasswordChangeHandler}
         />
@@ -91,7 +90,7 @@ const Container = styled.div`
   text-align:center;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   background-color: white;
   display: flex !important;
   flex-direction: column;

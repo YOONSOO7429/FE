@@ -5,8 +5,8 @@ import styled from "styled-components";
 function Post() {
   const access = localStorage.getItem("accessToken");
   const [input, setInput] = useState({
-    title: null,
-    content: null,
+    title: "",
+    content: "",
     image: null,
   });
   const [file, setFile] = useState(null);
@@ -44,7 +44,7 @@ function Post() {
         }
       });
 
-    setInput({ title: null, content: null, image: null });
+    setInput({ title: "", content: "", image: null });
   };
 
   const onChangePreview = (e) => {
